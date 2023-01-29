@@ -46,7 +46,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getEpisodes(episodeNumbers: String) {
+    private fun getEpisodes(episodeNumbers: String) {
         viewModelScope.launch(dispatcher) {
             when (val response = repository.getEpisodes(episodeNumbers)) {
                 is NetworkResponse.Success -> {
