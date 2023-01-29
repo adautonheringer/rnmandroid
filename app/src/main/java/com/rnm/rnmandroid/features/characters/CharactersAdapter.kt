@@ -58,14 +58,6 @@ class CharactersAdapter(private val listener: CharactersAdapterListener) :
         fun bind(character: Character) {
             binding.character = character
             binding.drawable = circularProgressDrawable
-
-
-
-//            Glide
-//                .with(binding.image.context)
-//                .load(character.image)
-//                .placeholder(circularProgressDrawable)
-//                .into(binding.image)
         }
 
 

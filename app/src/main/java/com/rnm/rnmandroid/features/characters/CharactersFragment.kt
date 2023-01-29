@@ -60,13 +60,15 @@ class CharactersFragment : Fragment(), CharactersAdapterListener {
                     if (it.character != null) {
 
                         exitTransition = MaterialElevationScale(false).apply {
-                            duration = resources.getInteger(androidx.appcompat.R.integer.abc_config_activityDefaultDur).toLong()
+                            duration = 300L
                         }
                         reenterTransition = MaterialElevationScale(true).apply {
-                            duration = resources.getInteger(androidx.appcompat.R.integer.abc_config_activityDefaultDur).toLong()
+                            duration = 300L
                         }
 
-                        val extras = FragmentNavigatorExtras(it.sharedView!! to it.character.name)
+                        val extras = FragmentNavigatorExtras(
+                            it.sharedView!!.findViewById<View>(R.id.root) to getString(R.string.root_transition_name_detail),
+                        )
                         val directions = CharactersFragmentDirections.nextAction(it.character.name)
                         findNavController().navigate(directions, extras)
 
@@ -79,7 +81,7 @@ class CharactersFragment : Fragment(), CharactersAdapterListener {
 
 
     override fun onCharacterClicked(cardView: View, character: Character) {
-        Log.d("testando", "character clicked: ${character.name}")
+        Log.d("testando transition", "image_container transitionName: ${cardView.findViewById<View>(R.id.image_container).transitionName}")
         viewModel.goToDetails(cardView, character)
     }
 

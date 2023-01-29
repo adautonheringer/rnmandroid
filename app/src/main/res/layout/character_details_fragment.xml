@@ -15,6 +15,7 @@
         <variable
             name="character"
             type="com.rnm.rnmandroid.features.characters.model.Character" />
+
         <variable
             name="viewModel"
             type="com.rnm.rnmandroid.MainViewModel" />
@@ -23,9 +24,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/root"
-        android:transitionName="@{character.name}"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:transitionName="@{@string/root_transition_name_detail}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -53,6 +56,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
+                android:transitionName="@{@string/image_container_transition_name_detail}"
                 app:cardCornerRadius="64dp"
                 app:cardElevation="4dp"
                 app:layout_constraintDimensionRatio="7:8"
@@ -62,11 +66,13 @@
 
                 <ImageView
                     android:id="@+id/image"
-                    app:srcUrl="@{character.image}"
-                    app:placeholder="@{drawable}"
                     android:layout_width="match_parent"
+
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:transitionName="@{@string/image_transition_name_detail}"
+                    app:placeholder="@{drawable}"
+                    app:srcUrl="@{character.image}" />
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -80,6 +86,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/back_button_ripple"
                 android:elevation="1dp"
+                android:onClick="@{() -> viewModel.goBack()}"
                 android:src="?attr/homeAsUpIndicator"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -87,11 +94,11 @@
 
             <TextView
                 android:id="@+id/name"
-                android:text="@{character.name}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="40dp"
+                android:text="@{character.name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/species"
@@ -102,9 +109,9 @@
 
             <TextView
                 android:id="@+id/status"
-                android:text="@{character.status}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{character.status}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:layout_constraintStart_toStartOf="@+id/name"
                 app:layout_constraintTop_toBottomOf="@+id/name"
@@ -114,15 +121,42 @@
                 android:id="@+id/species"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{character.species}"
                 android:layout_marginEnd="32dp"
                 android:clickable="false"
                 android:focusable="false"
+                android:text="@{character.species}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:chipBackgroundColor="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_container"
                 tools:text="testando" />
+
+            <TextView
+                android:id="@+id/episodes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/status"
+                app:layout_constraintStart_toStartOf="@id/status"
+                android:layout_marginTop="?large_margin"
+                android:text="Appears on:"
+                android:textStyle="italic"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?small_margin"
+                android:layout_marginStart="?small_margin"
+                android:layout_marginEnd="?small_margin"
+                app:layout_constraintEnd_toEndOf="@id/image_container"
+                app:layout_constraintStart_toStartOf="@id/episodes_label"
+                app:layout_constraintTop_toBottomOf="@id/episodes_label"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="?standard_margin"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

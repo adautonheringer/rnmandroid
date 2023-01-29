@@ -2,7 +2,6 @@ package com.rnm.rnmandroid.features.characterdetails
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.transition.ArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.rnm.rnmandroid.MainViewModel
 import com.rnm.rnmandroid.R
 import com.rnm.rnmandroid.databinding.CharacterDetailsFragmentBinding
-import com.rnm.rnmandroid.databinding.CharactersFragmentBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class CharacterDetailsFragment : Fragment() {
 
-    private lateinit var binding : CharacterDetailsFragmentBinding
+    private lateinit var binding: CharacterDetailsFragmentBinding
+    private val episodesAdapter = EpisodesAdapter()
     private lateinit var circularProgressDrawable: CircularProgressDrawable
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -33,7 +33,7 @@ class CharacterDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.my_nav_host_fragment
-            duration = resources.getInteger(androidx.appcompat.R.integer.abc_config_activityDefaultDur).toLong()
+            duration = 300L
             scrimColor = Color.TRANSPARENT
             setAllContainerColors(Color.TRANSPARENT)
             setPathMotion(ArcMotion())
@@ -56,6 +56,10 @@ class CharacterDetailsFragment : Fragment() {
             viewModel = this@CharacterDetailsFragment.viewModel
             drawable = circularProgressDrawable
             character = this@CharacterDetailsFragment.viewModel.mainState.value.character
+            recyclerView.apply {
+                adapter = episodesAdapter
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            }
         }
         return binding.root
     }
@@ -63,11 +67,10 @@ class CharacterDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.backButton.setOnClickListener { viewModel.goBack() }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mainState.collect {
+                    episodesAdapter.updateList(it.episodes)
                     if (it.character == null) {
                         findNavController().navigate(R.id.next_action)
                     }
@@ -75,5 +78,4 @@ class CharacterDetailsFragment : Fragment() {
             }
         }
     }
-
 }

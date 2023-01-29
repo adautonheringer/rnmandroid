@@ -23,5 +23,7 @@ data class CharactersDto(
         val status : String?,
         @SerializedName("species")
         val species : String?,
+        @SerializedName("episode")
+        val episodes : ArrayList<String>?,
     )
 }

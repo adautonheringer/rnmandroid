@@ -2,7 +2,6 @@ package com.rnm.rnmandroid
 
 import android.util.Log
 import android.view.View
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rnm.rnmandroid.di.IoDispatcher
@@ -47,8 +46,30 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun getEpisodes(episodeNumbers: String) {
+        viewModelScope.launch(dispatcher) {
+            when (val response = repository.getEpisodes(episodeNumbers)) {
+                is NetworkResponse.Success -> {
+                    _mainState.update { it.copy(episodes = response.data) }
+                }
+                is NetworkResponse.Error -> {}
+            }
+        }
+    }
+
+    private fun getEpisode(episodeNumber: String) {
+        viewModelScope.launch(dispatcher) {
+            when (val response = repository.getEpisode(episodeNumber)) {
+                is NetworkResponse.Success -> {
+                    _mainState.update { it.copy(episodes = listOf(response.data)) }
+                }
+                is NetworkResponse.Error -> {}
+            }
+        }
+    }
+
     fun goBack() {
-        _mainState.update { it.copy(character = null) }
+        _mainState.update { it.copy(character = null, episodes = listOf()) }
     }
 
     fun retry() {
@@ -56,6 +77,18 @@ class MainViewModel @Inject constructor(
     }
 
     fun goToDetails(cardView: View, character: Character) {
+        when (val size = character.episodes.size) {
+            0 -> {}
+            1 -> {
+                val episodeNumber = character.episodes.map { it.split("/").last() }.first()
+                getEpisode(episodeNumber)
+            }
+            else -> {
+                val episodes = character.episodes.map { it.split("/").last() }.joinToString(",")
+                getEpisodes(episodes)
+            }
+        }
+
         _mainState.update { it.copy(character = character, sharedView = cardView) }
     }
 }

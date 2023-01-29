@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <data
-
-        >
+    <data>
 
         <variable
             name="drawable"
@@ -23,11 +21,11 @@
 
 
     <com.google.android.material.card.MaterialCardView
-
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:transitionName="@{character.name}"
         android:onClick="@{(view) -> listener.onCharacterClicked(view, character)}"
+        android:transitionName="@{@string/root_transition_name(character.name)}"
         app:cardElevation="0dp"
 
         >
@@ -46,19 +44,21 @@
                 android:id="@+id/image_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardCornerRadius="42dp"
                 android:layout_margin="?small_margin"
+                android:transitionName="@{@string/image_container_transition_name(character.name)}"
+                app:cardCornerRadius="42dp"
                 app:cardElevation="4dp"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/image"
-                    app:srcUrl="@{character.image}"
-                    app:placeholder="@{drawable}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
+                    android:transitionName="@{@string/image_transition_name(character.name)}"
+                    app:placeholder="@{drawable}"
+                    app:srcUrl="@{character.image}"
                     tools:src="@drawable/ic_launcher_background" />
 
 
