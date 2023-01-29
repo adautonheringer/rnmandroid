@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data
+
+        >
+
+        <variable
+            name="drawable"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="character"
+            type="com.rnm.rnmandroid.features.characters.model.Character" />
+
+        <variable
+            name="listener"
+            type="com.rnm.rnmandroid.features.characters.CharactersAdapterListener" />
+    </data>
+
+
+    <com.google.android.material.card.MaterialCardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transitionName="@{character.name}"
+        android:onClick="@{(view) -> listener.onCharacterClicked(view, character)}"
+        app:cardElevation="0dp"
+
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/holder_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="?standard_margin"
+            android:layout_marginTop="?standard_margin"
+            android:layout_marginEnd="?standard_margin"
+
+            >
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/image_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardCornerRadius="42dp"
+                android:layout_margin="?small_margin"
+                app:cardElevation="4dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image"
+                    app:srcUrl="@{character.image}"
+                    app:placeholder="@{drawable}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/ic_launcher_background" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?small_margin"
+                android:layout_marginBottom="?standard_margin"
+                android:text="@{character.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/image_container"
+                app:layout_constraintStart_toStartOf="@id/image_container"
+                app:layout_constraintTop_toBottomOf="@id/image_container"
+                tools:text="Rick"
+
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

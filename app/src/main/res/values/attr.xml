@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="standard_margin" format="dimension" />
+    <attr name="small_margin" format="dimension" />
+    <attr name="large_margin" format="dimension" />
+    <attr name="extra_large_margin" format="dimension" />
+    <attr name="extra_small_margin" format="dimension" />
+
+</resources>

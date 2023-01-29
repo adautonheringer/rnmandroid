@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">rnmandroid</string>
+    <string name="character_details">Character Details</string>
+    <string name="characters">Characters</string>
+    <string name="try_again">try again</string>
+    <string name="time_out">time out</string>
+    <string name="error_message">sorry, bad luck</string>
+    <string name="details">Details</string>
 </resources>
